@@ -1,25 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
 	const [showCollapsedNav, setShowCollapsedNav] = useState(false);
-	const [activeNavLink, setActiveNavLink] = useState('Home');
+	const [activeNavLink, setActiveNavLink] = useState('');
+
+	const location = useLocation();
 
 	const handleNavButton = () => {
 		setShowCollapsedNav((prevShowCollapsedNav) => !prevShowCollapsedNav);
 	};
 
 	const handleNavLink = (e) => {
-		e.preventDefault();
 		setShowCollapsedNav(false);
 		setActiveNavLink(e.target.innerHTML);
 	};
 
+	useEffect(() => {
+		const path = location.pathname;
+		if (path === '/') setActiveNavLink('Home');
+	}, [location]);
+
 	return (
 		<nav className='navbar navbar-expand-lg navbar-dark bg-primary '>
 			<div className='container-fluid'>
-				<a className='navbar-brand' href='#'>
+				<Link className='navbar-brand' to='/' onClick={handleNavLink}>
 					Navbar
-				</a>
+				</Link>
 				<button
 					className='navbar-toggler'
 					type='button'
@@ -41,41 +48,41 @@ const Navbar = () => {
 					id='navbarNavAltMarkup'
 				>
 					<div className='navbar-nav'>
-						<a
+						<Link
 							className={
 								activeNavLink === 'Home'
 									? 'nav-link active'
 									: 'nav-link'
 							}
 							aria-current='page'
-							href='#'
+							to=''
 							onClick={handleNavLink}
 						>
 							Home
-						</a>
+						</Link>
 
-						<a
+						<Link
 							className={
 								activeNavLink === 'Features'
 									? 'nav-link active'
 									: 'nav-link'
 							}
-							href='#'
+							to='/features'
 							onClick={handleNavLink}
 						>
 							Features
-						</a>
-						<a
+						</Link>
+						<Link
 							className={
 								activeNavLink === 'Pricing'
 									? 'nav-link active'
 									: 'nav-link'
 							}
-							href='#'
+							to='/pricing'
 							onClick={handleNavLink}
 						>
 							Pricing
-						</a>
+						</Link>
 					</div>
 				</div>
 			</div>
